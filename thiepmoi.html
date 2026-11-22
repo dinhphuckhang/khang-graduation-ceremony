@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuốn Phim Ký Ức 2022 - 2026 | Thiệp Mời Tốt Nghiệp</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts hỗ trợ tiếng Việt đẹp mắt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Caveat:wght@500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Cấu hình Tailwind & Font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        paper: '#F5EFE6',
+                        paperDark: '#EAE0D5',
+                        ink: '#3E3229',
+                        inkLight: '#6B5B4F',
+                        kodakRed: '#C84B31',
+                        kodakAmber: '#D89216',
+                        filmBlack: '#1E1B18',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Be Vietnam Pro"', 'sans-serif'],
+                        hand: ['"Caveat"', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Nền giấy cổ điển & Hiệu ứng hạt nhiễu phim (Film Grain) */
+        body {
+            background-color: #F5EFE6;
+            color: #3E3229;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .film-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 40;
+            opacity: 0.045;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Dải lỗ cuộn phim 35mm chạy dọc 2 bên */
+        .film-sprockets-left, .film-sprockets-right {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 24px;
+            z-index: 30;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(62, 50, 41, 0.16) 4px, transparent 5px);
+            background-size: 24px 36px;
+            background-repeat: repeat-y;
+        }
+        .film-sprockets-left { left: 6px; }
+        .film-sprockets-right { right: 6px; }
+
+        @media (max-width: 640px) {
+            .film-sprockets-left, .film-sprockets-right {
+                width: 14px;
+                background-size: 14px 28px;
+                opacity: 0.6;
+            }
+            .film-sprockets-left { left: 2px; }
+            .film-sprockets-right { right: 2px; }
+        }
+
+        /* Khung ảnh Polaroid */
+        .polaroid-card {
+            background: #FFFDF9;
+            padding: 12px 12px 36px 12px;
+            box-shadow: 0 10px 25px -5px rgba(62, 50, 41, 0.18), 0 4px 10px -2px rgba(62, 50, 41, 0.1);
+            border: 1px solid rgba(62, 50, 41, 0.08);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+            position: relative;
+        }
+
+        .polaroid-card:hover {
+            transform: scale(1.03) rotate(0deg) !important;
+            box-shadow: 0 20px 35px -10px rgba(62, 50, 41, 0.28);
+            z-index: 20;
+        }
+
+        /* Hiệu ứng "Rửa ảnh phòng tối" khi cuộn tới */
+        .develop-photo {
+            filter: sepia(0.85) contrast(0.75) brightness(0.75) blur(3px);
+            opacity: 0.35;
+            transform: translateY(28px);
+            transition: filter 1.4s ease-out, opacity 1s ease-out, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .develop-photo.is-developed {
+            filter: sepia(0.12) contrast(1.03) brightness(1) blur(0px);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Miếng băng dính Washi Tape dán góc ảnh */
+        .washi-tape {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            width: 85px;
+            height: 24px;
+            background-color: rgba(216, 146, 22, 0.42);
+            backdrop-filter: blur(1px);
+            border-left: 2px dashed rgba(255,255,255,0.4);
+            border-right: 2px dashed rgba(255,255,255,0.4);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        .washi-red {
+            background-color: rgba(200, 75, 49, 0.38);
+            transform: translateX(-50%) rotate(4deg);
+        }
+
+        /* Hiệu ứng vé xem phim răng cưa */
+        .vintage-ticket {
+            background: #FFFDF9;
+            position: relative;
+            border: 2px solid #3E3229;
+            box-shadow: 8px 8px 0px #3E3229;
+        }
+
+        /* Dải phim dọc nối Timeline */
+        .film-strip-line {
+            background-color: #1E1B18;
+            background-image: 
+                linear-gradient(to bottom, #F5EFE6 50%, transparent 50%),
+                linear-gradient(to bottom, #F5EFE6 50%, transparent 50%);
+            background-position: 3px 0, right 3px top 0;
+            background-size: 4px 14px;
+            background-repeat: repeat-y;
+        }
+
+        /* Hiệu ứng đĩa than / cuộn phim quay khi phát nhạc */
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spinSlow 8s linear infinite;
+        }
+
+        /* Chế độ chỉnh sửa nhanh */
+        .edit-mode-active .editable-photo-wrapper {
+            cursor: pointer;
+            outline: 2px dashed #C84B31;
+            outline-offset: 4px;
+        }
+        .edit-mode-active .editable-photo-wrapper::after {
+            content: '📷 Bấm đổi ảnh';
+            position: absolute;
+            inset: 0;
+            background: rgba(30, 27, 24, 0.65);
+            color: #FFFDF9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            opacity: 0.95;
+            transition: opacity 0.2s;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-kodakRed selection:text-white">
+
+    <!-- Hiệu ứng hạt nhiễu & lỗ phim trang trí -->
+    <div class="film-grain"></div>
+    <div class="film-sprockets-left"></div>
+    <div class="film-sprockets-right"></div>
+
+    <!-- Input ẩn dùng để upload ảnh thử nghiệm trực tiếp từ máy -->
+    <input type="file" id="photoUploader" accept="image/*" class="hidden">
+
+    <!-- ==================== MÀN HÌNH MỞ ĐẦU (INTRO OVERLAY) ==================== -->
+    <div id="introOverlay" class="fixed inset-0 z-50 bg-filmBlack text-paper flex flex-col items-center justify-center p-6 transition-all duration-1000">
+        <!-- Họa tiết khung ngắm máy ảnh cơ (Viewfinder) -->
+        <div class="max-w-md w-full border border-paper/25 rounded-2xl p-8 sm:p-10 text-center relative bg-filmBlack/90 shadow-2xl">
+            <!-- 4 góc khung ngắm -->
+            <div class="absolute top-3 left-3 w-5 h-5 border-t-2 border-l-2 border-kodakAmber"></div>
+            <div class="absolute top-3 right-3 w-5 h-5 border-t-2 border-r-2 border-kodakAmber"></div>
+            <div class="absolute bottom-3 left-3 w-5 h-5 border-b-2 border-l-2 border-kodakAmber"></div>
+            <div class="absolute bottom-3 right-3 w-5 h-5 border-b-2 border-r-2 border-kodakAmber"></div>
+
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-kodakRed/20 border border-kodakRed/40 text-kodakAmber text-xs tracking-widest uppercase mb-6">
+                <span class="w-2 h-2 rounded-full bg-kodakRed animate-pulse"></span>
+                KODAK GOLD 200 • 36 EXP
+            </div>
+
+            <h1 class="font-serif text-3xl sm:text-4xl font-bold text-paper mb-3 leading-tight">
+                Cuốn Phim Ký Ức<br>
+                <span class="text-kodakAmber italic font-normal">2022 – 2026</span>
+            </h1>
+
+            <p class="text-paper/75 text-sm sm:text-base mb-8 leading-relaxed">
+                Một cuộn phim nhỏ ghi lại hành trình 4 năm thanh xuân trước khi khép lại cánh cửa đại học. Mời bạn cùng "rửa" lại những thước phim này nhé!
+            </p>
+
+            <div class="flex flex-col gap-3">
+                <button id="openFilmWithMusicBtn" class="w-full py-3.5 px-6 rounded-xl bg-kodakRed hover:bg-[#b03e26] text-white font-semibold shadow-lg shadow-kodakRed/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2.5 cursor-pointer">
+                    <i data-lucide="film" class="w-5 h-5"></i>
+                    <span>Mở Cuộn Phim & Bật Nhạc Lofi</span>
+                </button>
+                <button id="openFilmSilentBtn" class="w-full py-2.5 px-4 rounded-xl border border-paper/20 hover:border-paper/50 text-paper/70 hover:text-paper text-sm transition cursor-pointer">
+                    Mở không cần nhạc nền
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== THANH CÔNG CỤ NỔI (NHẠC & CHỈNH SỬA NHANH) ==================== -->
+    <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex items-center gap-2">
+        <!-- Nút Chế độ thay ảnh thử -->
+        <button id="toggleEditModeBtn" title="Bấm để thử thay ảnh của bạn vào các khung Polaroid" class="px-3.5 py-2.5 rounded-full bg-paper/95 backdrop-blur border border-ink/20 shadow-lg text-ink text-xs sm:text-sm font-medium flex items-center gap-2 hover:bg-kodakAmber hover:text-white hover:border-kodakAmber transition cursor-pointer">
+            <i data-lucide="image-plus" class="w-4 h-4"></i>
+            <span id="editModeLabel">Thử thay ảnh</span>
+        </button>
+
+        <!-- Nút Bật/Tắt Nhạc Lofi -->
+        <button id="musicToggleBtn" title="Bật / Tắt nhạc nền Lofi hoài niệm" class="p-2.5 sm:px-4 sm:py-2.5 rounded-full bg-filmBlack text-paper border border-paper/20 shadow-lg flex items-center gap-2 hover:bg-ink transition cursor-pointer">
+            <div id="vinylIcon" class="w-5 h-5 rounded-full border-2 border-kodakAmber flex items-center justify-center">
+                <div class="w-1.5 h-1.5 rounded-full bg-kodakRed"></div>
+            </div>
+            <span id="musicStatusText" class="text-xs font-medium hidden sm:inline">Nhạc: Tắt</span>
+        </button>
+    </div>
+
+    <!-- Thông báo Toast (thay thế alert) -->
+    <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-filmBlack text-paper px-5 py-3 rounded-xl shadow-2xl border border-kodakAmber/40 text-sm font-medium flex items-center gap-2.5 opacity-0 pointer-events-none transition-all duration-300 -translate-y-4">
+        <i data-lucide="sparkles" class="w-4 h-4 text-kodakAmber shrink-0"></i>
+        <span id="toastMessage">Thông báo</span>
+    </div>
+
+    <!-- ==================== NỘI DUNG CHÍNH ==================== -->
+    <main class="max-w-4xl mx-auto px-6 sm:px-10 pt-10 pb-24 relative z-10">
+
+        <!-- Header nhỏ trên cùng -->
+        <header class="flex items-center justify-between border-b border-ink/15 pb-4 mb-12 text-xs sm:text-sm text-inkLight">
+            <div class="flex items-center gap-2 font-medium">
+                <span class="px-2 py-0.5 bg-kodakRed text-white rounded text-[11px] font-bold tracking-wider">REC</span>
+                <span>ROLL #04 — GRADUATION EDITION</span>
+            </div>
+            <div class="font-hand text-lg sm:text-xl text-ink font-semibold">
+                2022 — 2026
+            </div>
+        </header>
+
+        <!-- ==================== PHẦN 1: HERO SECTION ==================== -->
+        <section class="text-center mb-24">
+            <p class="uppercase tracking-[0.2em] text-xs sm:text-sm text-kodakRed font-semibold mb-3">
+                Thiệp Mời Lễ Tốt Nghiệp & Nhật Ký Thanh Xuân
+            </p>
+            <h1 class="font-serif text-4xl sm:text-6xl font-extrabold text-ink leading-tight mb-4">
+                Hành Trình 4 Năm:<br>
+                <span class="text-kodakRed italic">Tập Cuối</span>
+            </h1>
+            <p class="max-w-xl mx-auto text-inkLight text-sm sm:text-base leading-relaxed mb-10">
+                Từ những ngày đầu bỡ ngỡ bước chân vào giảng đường đến khoảnh khắc khoác lên mình chiếc áo cử nhân. Cảm ơn vì đã là một phần trong cuốn phim thanh xuân này.
+            </p>
+
+            <!-- Khung ảnh Polaroid Chính (Hero Polaroid) -->
+            <div class="max-w-xs sm:max-w-sm mx-auto mb-10">
+                <div class="polaroid-card -rotate-2">
+                    <div class="washi-tape"></div>
+                    <!-- Thay ảnh chân dung tốt nghiệp của bạn tại thẻ img bên dưới -->
+                    <div class="editable-photo-wrapper relative aspect-[4/5] overflow-hidden bg-paperDark mb-3" data-photo-id="hero">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80" 
+                             onerror="this.src='https://placehold.co/600x750/EAE0D5/3E3229?text=Anh+Tot+Nghiep'"
+                             alt="Ảnh tốt nghiệp chính" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center">
+                        <h2 contenteditable="true" class="font-hand text-3xl sm:text-4xl font-bold text-ink outline-none focus:bg-kodakAmber/10 rounded px-1" title="Bấm để sửa tên">
+                            Đinh Phúc Khang
+                        </h2>
+                        <p contenteditable="true" class="text-xs sm:text-sm text-inkLight mt-1 font-medium outline-none focus:bg-kodakAmber/10 rounded px-1" title="Bấm để sửa trường/niên khóa">
+                            Kỹ Thuật Máy Tính • ĐH Bách Khoa TP.HCM (K22)
+                        </p>
+                    </div>
+                </div>
+                <p class="text-[11px] text-inkLight/70 mt-3 italic">
+                    * Mẹo: Bạn có thể bấm trực tiếp vào tên/chữ viết tay để sửa thử nội dung!
+                </p>
+            </div>
+
+            <!-- 2 Nút điều hướng chính -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+                <a href="#timeline" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-ink hover:bg-filmBlack text-paper font-medium text-sm sm:text-base shadow-md transition flex items-center justify-center gap-2">
+                    <i data-lucide="camera" class="w-4 h-4 text-kodakAmber"></i>
+                    <span>Xem Hành Trình 4 Năm</span>
+                </a>
+                <a href="#invitation" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-kodakRed hover:bg-[#b03e26] text-white font-semibold text-sm sm:text-base shadow-md transition flex items-center justify-center gap-2">
+                    <i data-lucide="ticket" class="w-4 h-4"></i>
+                    <span>Xem Thiệp Mời Buổi Lễ</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== PHẦN 2: TIMELINE "CUỐN PHIM KÝ ỨC" (NĂM 1 -> NĂM 4) ==================== -->
+        <section id="timeline" class="mb-28 scroll-mt-10">
+            <div class="text-center mb-16">
+                <span class="inline-block px-3 py-1 rounded-full bg-kodakAmber/15 text-kodakRed text-xs font-bold tracking-wider uppercase mb-2">
+                    Phòng Tối Kỷ Niệm
+                </span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-ink">
+                    Cuốn Phim 4 Năm Đại Học
+                </h2>
+                <p class="text-inkLight text-sm mt-2">
+                    Cuộn nhẹ xuống để từng khung hình từ từ hiện rõ...
+                </p>
+            </div>
+
+            <!-- Container Timeline với dải phim dọc ở giữa (Desktop) / bên trái (Mobile) -->
+            <div class="relative">
+                <!-- Dải phim dọc -->
+                <div class="film-strip-line absolute left-4 md:left-1/2 top-0 bottom-0 w-4 md:-translate-x-1/2 rounded-full opacity-85"></div>
+
+                <!-- ================= NĂM 1: KHỞI ĐẦU & BỠ NGỠ ================= -->
+                <div class="relative pl-12 md:pl-0 mb-20">
+                    <!-- Mốc đánh dấu trên dải phim -->
+                    <div class="absolute left-1.5 md:left-1/2 top-0 w-9 h-9 rounded-full bg-kodakRed text-white font-serif font-bold text-sm flex items-center justify-center md:-translate-x-1/2 shadow-md border-4 border-paper z-10">
+                        01
+                    </div>
+
+                    <div class="md:grid md:grid-cols-2 md:gap-12 items-center">
+                        <!-- Cột Nội dung Năm 1 -->
+                        <div class="md:text-right md:pr-8 mb-6 md:mb-0">
+                            <span class="text-xs font-bold uppercase tracking-widest text-kodakRed">2022 – 2023 • Năm Nhất</span>
+                            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-ink mt-1 mb-3">
+                                Khởi Đầu & Những Bỡ Ngỡ
+                            </h3>
+                            <p class="text-inkLight text-sm sm:text-base leading-relaxed">
+                                Những ngày đầu tiên cầm trên tay tấm thẻ sinh viên, ngơ ngác tìm giảng đường giữa khuôn viên trường rộng lớn. Là những buổi học đại cương Giải tích, Vật lý đại cương "xoắn não", và những người bạn xa lạ bỗng trở thành hội cạ cứng sau vài lần đi ăn trưa cùng nhau.
+                            </p>
+                        </div>
+
+                        <!-- Cột Ảnh Polaroid Năm 1 -->
+                        <div class="md:pl-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Ảnh 1.1 -->
+                            <div class="polaroid-card develop-photo -rotate-2">
+                                <div class="washi-tape"></div>
+                                <div class="editable-photo-wrapper relative aspect-square overflow-hidden bg-paperDark mb-2.5" data-photo-id="y1-1">
+                                    <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80" 
+                                         onerror="this.src='https://placehold.co/500x500/EAE0D5/3E3229?text=Ngay+Nhap+Hoc'"
+                                         alt="Ngày đầu nhập học" class="w-full h-full object-cover">
+                                </div>
+                                <p contenteditable="true" class="font-hand text-xl text-center text-ink">Ngày đầu tiên làm tân sinh viên 🎒</p>
+                            </div>
+
+                            <!-- Ảnh 1.2 -->
+                            <div class="polaroid-card develop-photo rotate-3 sm:mt-6">
+                                <div class="washi-tape washi-red"></div>
+                                <div class="editable-photo-wrapper relative aspect-square overflow-hidden bg-paperDark mb-2.5" data-photo-id="y1-2">
+                                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" 
+                                         onerror="this.src='https://placehold.co/500x500/EAE0D5/3E3229?text=Hoi+Ban+Dai+Cuong'"
+                                         alt="Học nhóm đại cương" class="w-full h-full object-cover">
+                                </div>
+                                <p contenteditable="true" class="font-hand text-xl text-center text-ink">Đội hình chạy deadline đại cương ☕</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= NĂM 2: CHUYỂN MÌNH & TRẢI NGHIỆM ================= -->
+                <div class="relative pl-12 md:pl-0 mb-20">
+                    <div class="absolute left-1.5 md:left-1/2 top-0 w-9 h-9 rounded-full bg-kodakAmber text-white font-serif font-bold text-sm flex items-center justify-center md:-translate-x-1/2 shadow-md border-4 border-paper z-10">
+                        02
+                    </div>
+
+                    <div class="md:grid md:grid-cols-2 md:gap-12 items-center">
+                        <!-- Cột Ảnh Polaroid Năm 2 (Đảo vị trí trên Desktop) -->
+                        <div class="order-2 md:order-1 md:pr-8 grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6 md:mt-0">
+                            <!-- Ảnh 2.1 -->
+                            <div class="polaroid-card develop-photo rotate-2">
+                                <div class="washi-tape washi-red"></div>
+                                <div class="editable-photo-wrapper relative aspect-square overflow-hidden bg-paperDark mb-2.5" data-photo-id="y2-1">
+                                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80" 
+                                         onerror="this.src='https://placehold.co/500x500/EAE0D5/3E3229?text=Hoat+Dong+CLB'"
+                                         alt="Hoạt động ngoại khóa" class="w-full h-full object-cover">
+                                </div>
+                                <p contenteditable="true" class="font-hand text-xl text-center text-ink">Những chuyến đi & hoạt động CLB 🔥</p>
+                            </div>
+
+                            <!-- Ảnh 2.2 -->
+                            <div class="polaroid-card develop-photo -rotate-3 sm:mt-6">
+                                <div class="washi-tape"></div>
+                                <div class="editable-photo-wrapper relative aspect-square overflow-hidden bg-paperDark mb-2.5" data-photo-id="y2-2">
+                                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" 
+                                         onerror="this.src='https://placehold.co/500x500/EAE0D5/3E3229?text=Do+An+Dau+Tien'"
+                                         alt="Đồ án nhóm đầu tiên" class="w-full h-full object-cover">
+                                </div>
+                                <p contenteditable="true" class="font-hand text-xl text-center text-ink">Thức trắng làm đồ án đầu tay 💻</p>
+                            </div>
+                        </div>
+
+                        <!-- Cột Nội dung Năm 2 -->
+                        <div class="order-1 md:order-2 md:pl-8">
+                            <span class="text-xs font-bold uppercase tracking-widest text-kodakAmber">2023 – 2024 • Năm Hai</span>
+                            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-ink mt-1 mb-3">
+                                Chuyển Mình & Trải Nghiệm
+                            </h3>
+                            <p class="text-inkLight text-sm sm:text-base leading-relaxed">
+                                Bắt đầu bước chân vào các môn cơ sở ngành, những buổi thực hành trong phòng lab kéo dài tới tối muộn. Cũng là năm của tuổi trẻ rực rỡ nhất với các hoạt động tình nguyện, những đêm cà phê 24h chạy bài và những bài học đầu tiên về làm việc nhóm.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= NĂM 3: BỨT PHÁ & THỬ THÁCH ================= -->
+                <div class="relative pl-12 md:pl-0 mb-20">
+                    <div class="absolute left-1.5 md:left-1/2 top-0 w-9 h-9 rounded-full bg-kodakRed text-white font-serif font-bold text-sm flex items-center justify-center md:-translate-x-1/2 shadow-md border-4 border-paper z-10">
+                        03
+                    </div>
+
+                    <div class="md:grid md:grid-cols-2 md:gap-12 items-center">
+                        <!-- Cột Nội dung Năm 3 -->
+                        <div class="md:text-right md:pr-8 mb-6 md:mb-0">
+                            <span class="text-xs font-bold uppercase tracking-widest text-kodakRed">2024 – 2025 • Năm Ba</span>
+                            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-ink mt-1 mb-3">
+                                Bứt Phá & Thử Thách
+                            </h3>
+                            <p class="text-inkLight text-sm sm:text-base leading-relaxed">
+                                Giai đoạn "nặng đô" nhất với đồ án chuyên ngành liên tiếp và kỳ thực tập thực tế đầu tiên. Có những lúc áp lực tưởng chừng muốn bỏ cuộc, nhưng chính những lần va vấp ấy đã giúp mình trưởng thành, vững vàng và tìm thấy hướng đi rõ ràng hơn cho tương lai.
+                            </p>
+                        </div>
+
+                        <!-- Cột Ảnh Polaroid Năm 3 -->
+                        <div class="md:pl-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Ảnh 3.1 -->
+                            <div class="polaroid-card develop-photo -rotate-2">
+                                <div class="washi-tape"></div>
+                                <div class="editable-photo-wrapper relative aspect-square overflow-hidden bg-paperDark mb-2.5" data-photo-id="y3-1">
+                                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" 
+                                         onerror="this.src='https://placehold.co/500x500/EAE0D5/3E3229?text=Ky+Thuc+Tap'"
+                                         alt="Kỳ thực tập" class="w-full h-full object-cover">
+                                </div>
+                                <p contenteditable="true" class="font-hand text-xl text-center text-ink">Những ngày đi thực tập thực tế 🏢</p>
+                            </div>
+
+                            <!-- Ảnh 3.2 -->
+                            <div class="polaroid-card develop-photo rotate-2 sm:mt-6">
+                                <div class="washi-tape washi-red"></div>
+                                <div class="editable-photo-wrapper relative aspect-square overflow-hidden bg-paperDark mb-2.5" data-photo-id="y3-2">
+                                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80" 
+                                         onerror="this.src='https://placehold.co/500x500/EAE0D5/3E3229?text=Chuyen+Di+Xa+Stress'"
+                                         alt="Chuyến đi cùng bạn bè" class="w-full h-full object-cover">
+                                </div>
+                                <p contenteditable="true" class="font-hand text-xl text-center text-ink">Chuyến đi xả hơi sau mùa thi 🌅</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= NĂM 4: VỀ ĐÍCH ================= -->
+                <div class="relative pl-12 md:pl-0">
+                    <div class="absolute left-1.5 md:left-1/2 top-0 w-9 h-9 rounded-full bg-filmBlack text-kodakAmber font-serif font-bold text-sm flex items-center justify-center md:-translate-x-1/2 shadow-md border-4 border-paper z-10">
+                        04
+                    </div>
+
+                    <div class="md:grid md:grid-cols-2 md:gap-12 items-center">
+                        <!-- Cột Ảnh Polaroid Năm 4 -->
+                        <div class="order-2 md:order-1 md:pr-8 grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6 md:mt-0">
+                            <!-- Ảnh 4.1 -->
+                            <div class="polaroid-card develop-photo rotate-2">
+                                <div class="washi-tape washi-red"></div>
+                                <div class="editable-photo-wrapper relative aspect-square overflow-hidden bg-paperDark mb-2.5" data-photo-id="y4-1">
+                                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80" 
+                                         onerror="this.src='https://placehold.co/500x500/EAE0D5/3E3229?text=Bao+Ve+Do+An'"
+                                         alt="Khóa luận tốt nghiệp" class="w-full h-full object-cover">
+                                </div>
+                                <p contenteditable="true" class="font-hand text-xl text-center text-ink">Bảo vệ đồ án tốt nghiệp thành công! 📝</p>
+                            </div>
+
+                            <!-- Ảnh 4.2 -->
+                            <div class="polaroid-card develop-photo -rotate-2 sm:mt-6">
+                                <div class="washi-tape"></div>
+                                <div class="editable-photo-wrapper relative aspect-square overflow-hidden bg-paperDark mb-2.5" data-photo-id="y4-2">
+                                    <img src="https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?auto=format&fit=crop&w=600&q=80" 
+                                         onerror="this.src='https://placehold.co/500x500/EAE0D5/3E3229?text=San+Sang+Tot+Nghiep'"
+                                         alt="Mũ tốt nghiệp" class="w-full h-full object-cover">
+                                </div>
+                                <p contenteditable="true" class="font-hand text-xl text-center text-ink">Sẵn sàng cho chặng đường mới 🎓</p>
+                            </div>
+                        </div>
+
+                        <!-- Cột Nội dung Năm 4 -->
+                        <div class="order-1 md:order-2 md:pl-8">
+                            <span class="text-xs font-bold uppercase tracking-widest text-ink">2025 – 2026 • Năm Tư</span>
+                            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-ink mt-1 mb-3">
+                                Về Đích & Khép Lại Cuộn Phim
+                            </h3>
+                            <p class="text-inkLight text-sm sm:text-base leading-relaxed">
+                                Khoảnh khắc thở phào nhẹ nhõm khi bảo vệ xong đồ án tốt nghiệp trước hội đồng. 4 năm trôi qua nhanh như một cái chớp mắt, và khung hình cuối cùng hoàn hảo nhất của cuộn phim này chắc chắn không thể thiếu sự hiện diện của bạn trong ngày lễ tốt nghiệp!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PHẦN 3: THIỆP MỜI CHÍNH THỨC (VINTAGE TICKET) ==================== -->
+        <section id="invitation" class="mb-24 scroll-mt-10">
+            <div class="vintage-ticket rounded-2xl overflow-hidden">
+                <!-- Dải tiêu đề vé màu đỏ Kodak -->
+                <div class="bg-kodakRed text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2 border-b-2 border-ink">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="ticket" class="w-5 h-5 text-kodakAmber"></i>
+                        <span class="font-bold tracking-widest uppercase text-xs sm:text-sm">Vé Mời Tham Dự Lễ Tốt Nghiệp</span>
+                    </div>
+                    <span class="font-mono text-xs bg-filmBlack/30 px-2.5 py-1 rounded">NO. 2022-2026</span>
+                </div>
+
+                <div class="p-6 sm:p-10 md:grid md:grid-cols-12 md:gap-8 items-center">
+                    <!-- Cột thông tin chính (7 cột) -->
+                    <div class="md:col-span-7 md:border-r-2 md:border-dashed md:border-ink/25 md:pr-8">
+                        <p class="font-hand text-2xl text-kodakRed mb-1">Trân trọng kính mời bạn đến chung vui cùng mình!</p>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-ink mb-4">
+                            Lễ Tốt Nghiệp Cử Nhân
+                        </h2>
+                        <p class="text-inkLight text-sm sm:text-base leading-relaxed mb-6">
+                            Sự có mặt và những lời chúc của gia đình, thầy cô và bạn bè sẽ là món quà ý nghĩa nhất khép lại quãng đời sinh viên đáng nhớ của mình.
+                        </p>
+
+                        <!-- Chi tiết Thời gian & Địa điểm -->
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-10 h-10 rounded-xl bg-kodakAmber/15 text-kodakRed flex items-center justify-center shrink-0 mt-0.5">
+                                    <i data-lucide="calendar-clock" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-wider text-inkLight font-semibold">Thời gian đón khách & chụp ảnh</p>
+                                    <p contenteditable="true" class="font-bold text-ink text-base sm:text-lg outline-none focus:bg-kodakAmber/10 rounded">
+                                        08:30 – 11:30 | Thứ Năm, 26/11/2026
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-10 h-10 rounded-xl bg-kodakAmber/15 text-kodakRed flex items-center justify-center shrink-0 mt-0.5">
+                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-wider text-inkLight font-semibold">Địa điểm tổ chức</p>
+                                    <p contenteditable="true" class="font-bold text-ink text-base sm:text-lg outline-none focus:bg-kodakAmber/10 rounded">
+                                        Hội trường A5 – ĐH Bách Khoa TP.HCM
+                                    </p>
+                                    <p id="venueAddress" contenteditable="true" class="text-sm text-inkLight outline-none focus:bg-kodakAmber/10 rounded">
+                                        268 Lý Thường Kiệt, P.14, Q.10, TP. Hồ Chí Minh
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-10 h-10 rounded-xl bg-kodakAmber/15 text-kodakRed flex items-center justify-center shrink-0 mt-0.5">
+                                    <i data-lucide="phone-call" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-wider text-inkLight font-semibold">Liên hệ khi tới nơi</p>
+                                    <p id="contactPhone" contenteditable="true" class="font-bold text-ink text-base outline-none focus:bg-kodakAmber/10 rounded">
+                                        0909 123 456 (Phúc Khang)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Các nút tiện ích bản đồ & sao chép -->
+                        <div class="flex flex-wrap gap-2.5 pt-2">
+                            <a href="https://maps.google.com/?q=268+Ly+Thuong+Kiet,+Quan+10,+Ho+Chi+Minh" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-ink hover:bg-filmBlack text-paper text-xs sm:text-sm font-medium flex items-center gap-2 transition">
+                                <i data-lucide="navigation" class="w-4 h-4 text-kodakAmber"></i>
+                                <span>Mở Google Maps</span>
+                            </a>
+                            <button onclick="copyText('268 Lý Thường Kiệt, P.14, Q.10, TP.HCM', 'Đã sao chép địa chỉ trường!')" class="px-4 py-2.5 rounded-xl border border-ink/25 hover:border-ink text-ink text-xs sm:text-sm font-medium flex items-center gap-2 transition cursor-pointer">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                                <span>Chép địa chỉ</span>
+                            </button>
+                            <button onclick="copyText('0909123456', 'Đã sao chép số điện thoại!')" class="px-4 py-2.5 rounded-xl border border-ink/25 hover:border-ink text-ink text-xs sm:text-sm font-medium flex items-center gap-2 transition cursor-pointer">
+                                <i data-lucide="smartphone" class="w-4 h-4"></i>
+                                <span>Chép SĐT</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cột Đồng hồ đếm ngược & Mã vạch vé (5 cột) -->
+                    <div class="md:col-span-5 mt-8 md:mt-0 pt-6 md:pt-0 border-t-2 border-dashed border-ink/25 md:border-t-0 text-center flex flex-col items-center justify-center">
+                        <span class="text-xs font-bold uppercase tracking-widest text-kodakRed mb-3">
+                            Đếm Ngược Tới Giờ G
+                        </span>
+
+                        <!-- Countdown Timer -->
+                        <div id="countdownBox" class="grid grid-cols-4 gap-2 w-full max-w-xs mb-6">
+                            <div class="bg-paper border border-ink/15 rounded-xl p-2.5">
+                                <div id="cdDays" class="font-serif text-2xl sm:text-3xl font-bold text-ink">00</div>
+                                <div class="text-[10px] uppercase text-inkLight font-semibold">Ngày</div>
+                            </div>
+                            <div class="bg-paper border border-ink/15 rounded-xl p-2.5">
+                                <div id="cdHours" class="font-serif text-2xl sm:text-3xl font-bold text-ink">00</div>
+                                <div class="text-[10px] uppercase text-inkLight font-semibold">Giờ</div>
+                            </div>
+                            <div class="bg-paper border border-ink/15 rounded-xl p-2.5">
+                                <div id="cdMinutes" class="font-serif text-2xl sm:text-3xl font-bold text-ink">00</div>
+                                <div class="text-[10px] uppercase text-inkLight font-semibold">Phút</div>
+                            </div>
+                            <div class="bg-paper border border-ink/15 rounded-xl p-2.5">
+                                <div id="cdSeconds" class="font-serif text-2xl sm:text-3xl font-bold text-kodakRed">00</div>
+                                <div class="text-[10px] uppercase text-inkLight font-semibold">Giây</div>
+                            </div>
+                        </div>
+
+                        <!-- Ghi chú bãi giữ xe -->
+                        <div class="bg-kodakAmber/15 border border-kodakAmber/30 rounded-xl p-3.5 text-left w-full mb-5">
+                            <p class="text-xs font-bold text-ink flex items-center gap-1.5 mb-1">
+                                <i data-lucide="info" class="w-4 h-4 text-kodakRed"></i>
+                                Lưu ý nhỏ cho bạn:
+                            </p>
+                            <p class="text-xs text-inkLight leading-relaxed">
+                                Bạn có thể gửi xe tại cổng Tô Hiến Thành hoặc cổng Lý Thường Kiệt. Nhớ nhắn trước để mình chạy ra đón nhé!
+                            </p>
+                        </div>
+
+                        <!-- Mã vạch trang trí kiểu cuộn phim -->
+                        <div class="w-full opacity-70">
+                            <div class="h-8 w-4/5 mx-auto" style="background: repeating-linear-gradient(90deg, #3E3229, #3E3229 2px, transparent 2px, transparent 5px, #3E3229 5px, #3E3229 9px, transparent 9px, transparent 12px);"></div>
+                            <p class="font-mono text-[10px] tracking-[0.25em] text-inkLight mt-1">ADMIT ONE • VIP GUEST</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PHẦN 4: TƯƠNG TÁC (RSVP & LƯU BÚT POLAROID) ==================== -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Cột Trái (5 cột): Form Xác Nhận Tham Dự (RSVP) -->
+            <div class="lg:col-span-5 bg-[#FFFDF9] border border-ink/15 rounded-2xl p-6 sm:p-7 shadow-sm">
+                <div class="flex items-center gap-2 text-kodakRed text-xs font-bold uppercase tracking-wider mb-1">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                    <span>RSVP • Xác Nhận Tham Dự</span>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-ink mb-2">Bạn sẽ đến chứ?</h3>
+                <p class="text-xs sm:text-sm text-inkLight mb-5">
+                    Cho mình biết lịch trình của bạn để mình chuẩn bị đón tiếp chu đáo nhất nhé!
+                </p>
+
+                <form id="rsvpForm" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-ink mb-1">Tên của bạn / Biệt danh *</label>
+                        <input type="text" id="rsvpName" required placeholder="VD: Minh Anh (Bạn cấp 3)" class="w-full px-3.5 py-2.5 rounded-xl bg-paper border border-ink/20 text-sm focus:outline-none focus:border-kodakRed">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-ink mb-1">Mức độ tham gia</label>
+                        <select id="rsvpStatus" class="w-full px-3.5 py-2.5 rounded-xl bg-paper border border-ink/20 text-sm focus:outline-none focus:border-kodakRed">
+                            <option value="Chắc chắn tới chung vui! 🎉">Chắc chắn tới chung vui! 🎉</option>
+                            <option value="Sẽ cố gắng thu xếp qua chụp ảnh 📸">Sẽ cố gắng thu xếp qua chụp ảnh 📸</option>
+                            <option value="Tiếc quá mình bận rồi, gửi lời chúc từ xa 💌">Tiếc quá mình bận rồi, gửi lời chúc từ xa 💌</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-ink mb-1">Khung giờ dự kiến ghé</label>
+                        <select id="rsvpTime" class="w-full px-3.5 py-2.5 rounded-xl bg-paper border border-ink/20 text-sm focus:outline-none focus:border-kodakRed">
+                            <option value="08:30 - 09:30 (Đầu giờ sáng)">08:30 - 09:30 (Đầu giờ sáng)</option>
+                            <option value="09:30 - 10:30 (Giữa buổi)">09:30 - 10:30 (Giữa buổi)</option>
+                            <option value="10:30 - 11:30 (Cuối buổi sáng)">10:30 - 11:30 (Cuối buổi sáng)</option>
+                            <option value="Chưa chắc chắn giờ">Chưa chắc chắn giờ</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full py-3 rounded-xl bg-kodakRed hover:bg-[#b03e26] text-white font-semibold text-sm shadow transition cursor-pointer">
+                        Gửi Xác Nhận Cho Mình
+                    </button>
+                </form>
+
+                <!-- Khu vực hiển thị sau khi gửi RSVP -->
+                <div id="rsvpSuccessBox" class="hidden mt-4 p-4 rounded-xl bg-kodakAmber/15 border border-kodakAmber/40 text-sm text-ink">
+                    <p class="font-bold text-kodakRed flex items-center gap-1.5 mb-1">
+                        <i data-lucide="heart" class="w-4 h-4 fill-kodakRed"></i>
+                        Đã ghi nhận lịch hẹn!
+                    </p>
+                    <p id="rsvpSummaryText" class="text-xs text-inkLight leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- Cột Phải (7 cột): Bảng Lưu Bút Kỷ Niệm (Polaroid Guestbook) -->
+            <div class="lg:col-span-7 bg-[#FFFDF9] border border-ink/15 rounded-2xl p-6 sm:p-7 shadow-sm">
+                <div class="flex items-center gap-2 text-kodakAmber text-xs font-bold uppercase tracking-wider mb-1">
+                    <i data-lucide="pen-tool" class="w-4 h-4"></i>
+                    <span>Guestbook • Bảng Lưu Bút</span>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-ink mb-2">Dán Lời Chúc Lên Tường</h3>
+                <p class="text-xs sm:text-sm text-inkLight mb-5">
+                    Viết vài dòng nhắn nhủ cho chặng đường mới của mình, lời chúc sẽ được dán ngay lên bảng kỷ niệm bên dưới!
+                </p>
+
+                <!-- Form viết lưu bút -->
+                <form id="guestbookForm" class="space-y-3 mb-7 pb-6 border-b border-ink/10">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <input type="text" id="gbName" required placeholder="Tên của bạn..." class="sm:col-span-1 px-3.5 py-2.5 rounded-xl bg-paper border border-ink/20 text-sm focus:outline-none focus:border-kodakAmber">
+                        <input type="text" id="gbMessage" required placeholder="Viết lời chúc tốt nghiệp thật ngầu..." class="sm:col-span-2 px-3.5 py-2.5 rounded-xl bg-paper border border-ink/20 text-sm focus:outline-none focus:border-kodakAmber">
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-ink hover:bg-filmBlack text-paper text-xs sm:text-sm font-semibold flex items-center gap-2 transition cursor-pointer">
+                            <i data-lucide="sticky-note" class="w-4 h-4 text-kodakAmber"></i>
+                            <span>Dán Lên Bảng Kỷ Niệm</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Tường dán các thẻ lưu bút -->
+                <div id="guestbookWall" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[380px] overflow-y-auto pr-1">
+                    <!-- Các thẻ lưu bút mẫu & mới sẽ được render bằng JS -->
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-8 border-t border-ink/15 text-center text-xs text-inkLight">
+            <p class="font-hand text-2xl text-ink mb-1">Cảm ơn vì đã đồng hành cùng thanh xuân của mình!</p>
+            <p>Cuốn Phim Ký Ức 2022 – 2026 • Thiết kế theo phong cách Retro Film & Polaroid</p>
+        </footer>
+
+    </main>
+
+    <!-- ==================== JAVASCRIPT XỬ LÝ TƯƠNG TÁC ==================== -->
+    <script>
+        // Khởi tạo icons Lucide
+        lucide.createIcons();
+
+        // 1. HIỂN THỊ THÔNG BÁO TOAST MƯỢT MÀ
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.textContent = message;
+            toast.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 3000);
+        }
+
+        // 2. HÀM SAO CHÉP TEXT (Tương thích mọi trình duyệt & iFrame)
+        function copyText(text, successMsg) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                showToast(successMsg);
+            } catch (err) {
+                showToast('Không thể sao chép tự động, bạn vui lòng chọn và chép tay nhé!');
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        // 3. TỔNG HỢP NHẠC NỀN LOFI ẤM ÁP BẰNG WEB AUDIO API (Không lo link mp3 hỏng)
+        let audioCtx = null;
+        let isPlayingMusic = false;
+        let lofiInterval = null;
+
+        // Hợp âm Lofi hoài niệm (Fmaj7 -> Em7 -> Dm7 -> Cmaj7)
+        const lofiChords = [
+            [174.61, 220.00, 261.63, 329.63], // Fmaj7
+            [164.81, 196.00, 246.94, 293.66], // Em7
+            [146.83, 174.61, 220.00, 261.63], // Dm7
+            [130.81, 164.81, 196.00, 246.94]  // Cmaj7
+        ];
+        let chordStep = 0;
+
+        function playLofiChord(freqs) {
+            if (!audioCtx || !isPlayingMusic) return;
+            const now = audioCtx.currentTime;
+
+            freqs.forEach((freq, idx) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                const filter = audioCtx.createBiquadFilter();
+
+                // Sóng tam giác tạo âm sắc giống đàn Rhodes / Electric Piano ấm
+                osc.type = 'triangle';
+                // Rải nhẹ từng nốt (strum) và thêm chút detune kiểu băng cassette cũ
+                const detune = (Math.random() - 0.5) * 8;
+                osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+                osc.detune.setValueAtTime(detune, now);
+
+                // Bộ lọc thông thấp tạo chất âm ấm, dịu tai
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(750, now);
+
+                // Envelope nhẹ nhàng
+                gain.gain.setValueAtTime(0.001, now + idx * 0.06);
+                gain.gain.exponentialRampToValueAtTime(0.035, now + idx * 0.06 + 0.35);
+                gain.gain.exponentialRampToValueAtTime(0.0008, now + 3.4);
+
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start(now + idx * 0.06);
+                osc.stop(now + 3.5);
+            });
+        }
+
+        function startMusic() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContextClass();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            if (isPlayingMusic) return;
+
+            isPlayingMusic = true;
+            updateMusicUI();
+            playLofiChord(lofiChords[chordStep]);
+            chordStep = (chordStep + 1) % lofiChords.length;
+
+            lofiInterval = setInterval(() => {
+                playLofiChord(lofiChords[chordStep]);
+                chordStep = (chordStep + 1) % lofiChords.length;
+            }, 3400);
+        }
+
+        function stopMusic() {
+            isPlayingMusic = false;
+            clearInterval(lofiInterval);
+            updateMusicUI();
+        }
+
+        function updateMusicUI() {
+            const vinyl = document.getElementById('vinylIcon');
+            const statusText = document.getElementById('musicStatusText');
+            if (isPlayingMusic) {
+                vinyl.classList.add('animate-spin-slow');
+                statusText.textContent = 'Nhạc: Đang phát';
+            } else {
+                vinyl.classList.remove('animate-spin-slow');
+                statusText.textContent = 'Nhạc: Tắt';
+            }
+        }
+
+        document.getElementById('musicToggleBtn').addEventListener('click', () => {
+            if (isPlayingMusic) {
+                stopMusic();
+                showToast('Đã tạm dừng nhạc nền');
+            } else {
+                startMusic();
+                showToast('Đang phát giai điệu Lofi hoài niệm 🎶');
+            }
+        });
+
+        // 4. ĐÓNG MÀN HÌNH MỞ ĐẦU (INTRO OVERLAY)
+        function closeIntro(withMusic) {
+            const overlay = document.getElementById('introOverlay');
+            overlay.classList.add('opacity-0', 'pointer-events-none', 'scale-105');
+            if (withMusic) {
+                startMusic();
+            }
+            // Kích hoạt kiểm tra hiệu ứng rửa ảnh ngay khi mở trang
+            setTimeout(checkDevelopPhotos, 300);
+        }
+
+        document.getElementById('openFilmWithMusicBtn').addEventListener('click', () => closeIntro(true));
+        document.getElementById('openFilmSilentBtn').addEventListener('click', () => closeIntro(false));
+
+        // 5. HIỆU ỨNG "RỬA ẢNH PHÒNG TỐI" KHI CUỘN TRANG (IntersectionObserver)
+        const polaroids = document.querySelectorAll('.develop-photo');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -60px 0px',
+            threshold: 0.15
+        };
+
+        const photoObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-developed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        polaroids.forEach(photo => photoObserver.observe(photo));
+
+        function checkDevelopPhotos() {
+            polaroids.forEach(photo => {
+                const rect = photo.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) {
+                    photo.classList.add('is-developed');
+                }
+            });
+        }
+
+        // 6. CHẾ ĐỘ THỬ THAY ẢNH TRỰC TIẾP TRÊN TRÌNH DUYỆT
+        let isEditMode = false;
+        let currentEditingImg = null;
+        const toggleEditBtn = document.getElementById('toggleEditModeBtn');
+        const editModeLabel = document.getElementById('editModeLabel');
+        const photoUploader = document.getElementById('photoUploader');
+
+        toggleEditBtn.addEventListener('click', () => {
+            isEditMode = !isEditMode;
+            document.body.classList.toggle('edit-mode-active', isEditMode);
+            if (isEditMode) {
+                editModeLabel.textContent = 'Xong (Đang sửa ảnh)';
+                toggleEditBtn.classList.add('bg-kodakRed', 'text-white', 'border-kodakRed');
+                showToast('Bấm vào bất kỳ tấm ảnh Polaroid nào để tải ảnh của bạn lên xem thử!');
+            } else {
+                editModeLabel.textContent = 'Thử thay ảnh';
+                toggleEditBtn.classList.remove('bg-kodakRed', 'text-white', 'border-kodakRed');
+                showToast('Đã thoát chế độ thay ảnh');
+            }
+        });
+
+        document.querySelectorAll('.editable-photo-wrapper').forEach(wrapper => {
+            wrapper.addEventListener('click', () => {
+                if (!isEditMode) return;
+                currentEditingImg = wrapper.querySelector('img');
+                photoUploader.click();
+            });
+        });
+
+        photoUploader.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && currentEditingImg) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    currentEditingImg.src = event.target.result;
+                    showToast('Đã cập nhật ảnh mới vào khung Polaroid!');
+                };
+                reader.readAsDataURL(file);
+            }
+            photoUploader.value = '';
+        });
+
+        // 7. ĐỒNG HỒ ĐẾM NGƯỢC TỚI NGÀY TỐT NGHIỆP (26/11/2026 08:30:00)
+        const targetDate = new Date('2026-11-26T08:30:00+07:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance <= 0) {
+                document.getElementById('cdDays').textContent = '00';
+                document.getElementById('cdHours').textContent = '00';
+                document.getElementById('cdMinutes').textContent = '00';
+                document.getElementById('cdSeconds').textContent = '00';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
+            document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('cdMinutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('cdSeconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // 8. XỬ LÝ FORM RSVP (XÁC NHẬN THAM DỰ)
+        document.getElementById('rsvpForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('rsvpName').value.trim();
+            const status = document.getElementById('rsvpStatus').value;
+            const time = document.getElementById('rsvpTime').value;
+
+            if (!name) return;
+
+            const successBox = document.getElementById('rsvpSuccessBox');
+            const summaryText = document.getElementById('rsvpSummaryText');
+            summaryText.innerHTML = `Cảm ơn <strong>${escapeHTML(name)}</strong>! Trạng thái: <em>${escapeHTML(status)}</em> — Khung giờ: <strong>${escapeHTML(time)}</strong>. Hẹn gặp bạn tại buổi lễ nhé!`;
+            successBox.classList.remove('hidden');
+
+            showToast(`Cảm ơn ${name} đã xác nhận tham dự!`);
+            e.target.reset();
+        });
+
+        // 9. XỬ LÝ BẢNG LƯU BÚT (GUESTBOOK + LOCALSTORAGE)
+        const defaultNotes = [
+            {
+                name: 'Hội bạn cùng bàn K22',
+                message: 'Chúc mừng tân cử nhân nha! Cuối cùng cũng thoát kiếp chạy deadline đại cương rồi, hẹn 8h30 có mặt chụp 1000 tấm ảnh!',
+                rotation: '-rotate-1',
+                tapeColor: 'bg-kodakAmber/40'
+            },
+            {
+                name: 'Chị Hai',
+                message: 'Chúc mừng em trai đã hoàn thành xuất sắc chặng đường 4 năm đại học. Gia đình luôn tự hào về em!',
+                rotation: 'rotate-1',
+                tapeColor: 'bg-kodakRed/35'
+            },
+            {
+                name: 'Team Đồ Án Chuyên Ngành',
+                message: 'Cảm ơn người anh em đã gánh team qua bao mùa bảo vệ. Chúc ông bước sang chặng đường mới thật rực rỡ!',
+                rotation: '-rotate-2',
+                tapeColor: 'bg-kodakAmber/40'
+            }
+        ];
+
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function loadGuestbook() {
+            let notes = [];
+            try {
+                const saved = localStorage.getItem('graduation_film_guestbook_v1');
+                notes = saved ? JSON.parse(saved) : defaultNotes;
+            } catch (e) {
+                notes = defaultNotes;
+            }
+
+            const wall = document.getElementById('guestbookWall');
+            wall.innerHTML = '';
+
+            notes.forEach(note => {
+                const card = document.createElement('div');
+                card.className = `relative bg-paper border border-ink/15 p-4 pt-5 rounded-xl shadow-sm ${note.rotation || 'rotate-0'} transition hover:scale-[1.02]`;
+                card.innerHTML = `
+                    <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-12 h-3.5 ${note.tapeColor || 'bg-kodakAmber/40'} rounded-xs"></div>
+                    <p class="text-xs sm:text-sm text-ink leading-relaxed mb-2.5">"${escapeHTML(note.message)}"</p>
+                    <p class="font-hand text-lg font-bold text-kodakRed text-right">— ${escapeHTML(note.name)}</p>
+                `;
+                wall.appendChild(card);
+            });
+        }
+
+        document.getElementById('guestbookForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nameInput = document.getElementById('gbName');
+            const msgInput = document.getElementById('gbMessage');
+            const name = nameInput.value.trim();
+            const message = msgInput.value.trim();
+
+            if (!name || !message) return;
+
+            const rotations = ['-rotate-2', '-rotate-1', 'rotate-1', 'rotate-2'];
+            const tapes = ['bg-kodakAmber/40', 'bg-kodakRed/35'];
+            const newNote = {
+                name,
+                message,
+                rotation: rotations[Math.floor(Math.random() * rotations.length)],
+                tapeColor: tapes[Math.floor(Math.random() * tapes.length)]
+            };
+
+            let notes = [];
+            try {
+                const saved = localStorage.getItem('graduation_film_guestbook_v1');
+                notes = saved ? JSON.parse(saved) : [...defaultNotes];
+                notes.unshift(newNote);
+                localStorage.setItem('graduation_film_guestbook_v1', JSON.stringify(notes));
+            } catch (err) {
+                notes = [newNote, ...defaultNotes];
+            }
+
+            loadGuestbook();
+            showToast('Đã dán lời chúc của bạn lên tường kỷ niệm!');
+            nameInput.value = '';
+            msgInput.value = '';
+        });
+
+        // Khởi chạy bảng lưu bút khi tải trang
+        loadGuestbook();
+    </script>
+</body>
+</html>
